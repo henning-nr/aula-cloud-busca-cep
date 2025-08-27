@@ -246,12 +246,19 @@
             console.log(ruas)
             let listaRuas = document.querySelector("#lista-ruas")
             
-            listaRuas.innerHTML = `<ul class="collection">
+            for(let i=0; i<ruas.length; i++){
+              console.log(ruas[i].logradouro)
+
+            }
+
+            listaRuas.innerHTML = `
+              <ul class="collection">
               <li class="collection-item"></li>RUA: <span id="dadoRua"></span></li>
               <li class="collection-item"></li>BAIRRO: <span id="dadoBairro"></span></li>
               <li class="collection-item"></li>CIDADE: <span id="dadoCidade"></span></li>
               <li class="collection-item"></li>ESTADO: <span id="dadoEstado"></span></li>
-            </ul>`
+              </ul>
+              `
            })
           
 
