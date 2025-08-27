@@ -85,13 +85,17 @@
                     <i class="material-icons right">send</i>Enviar</a>
                   </div>  
                 </div>
-              <ul class="collection">
+              <!-- <ul class="collection">
                 <li class="collection-item"></li>CEP: <span id="dadoCep"></span></li>
-              <li class="collection-item"></li>RUA: <span id="dadoRua2"></span></li>
-              <li class="collection-item"></li>BAIRRO: <span id="dadoBairro2"></span></li>
-              <li class="collection-item"></li>CIDADE: <span id="dadoCidade2"></span></li>
-              <li class="collection-item"></li>ESTADO: <span id="dadoEstado2"></span></li>
-              </ul>
+                <li class="collection-item"></li>RUA: <span id="dadoRua2"></span></li>
+                <li class="collection-item"></li>BAIRRO: <span id="dadoBairro2"></span></li>
+                <li class="collection-item"></li>CIDADE: <span id="dadoCidade2"></span></li>
+                <li class="collection-item"></li>ESTADO: <span id="dadoEstado2"></span></li>
+              </ul> -->
+
+              <div class="lista-ruas">
+                aqui vai aparecer varias ruas
+              </div>
               </form>
             </div>
           </div>
@@ -234,12 +238,22 @@
 
            console.log("url", url)
 
-           fetch(url).then((res)=>{
+           fetch(url)
+           .then((res)=>{
             return res.json()
-           }).then((ruas)=>{
-            console.log(ruas)
            })
-
+           .then((ruas)=>{
+            console.log(ruas)
+            let listaRuas = document.querySelector("#lista-ruas")
+            
+            listaRuas.innerHTML = `<ul class="collection">
+              <li class="collection-item"></li>RUA: <span id="dadoRua"></span></li>
+              <li class="collection-item"></li>BAIRRO: <span id="dadoBairro"></span></li>
+              <li class="collection-item"></li>CIDADE: <span id="dadoCidade"></span></li>
+              <li class="collection-item"></li>ESTADO: <span id="dadoEstado"></span></li>
+            </ul>`
+           })
+          
 
         }
 
