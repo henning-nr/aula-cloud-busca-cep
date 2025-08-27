@@ -62,10 +62,38 @@
 
           <!-- tab da rua -->
           <div id="test2" class="col s12">
-            <input type="text">
-            <input type="text">
-            <input type="text">
-            <button>Evniar</button>
+             <div class="row">
+              <form class="col s12">
+                <div class="row">
+                  <div class="input-field col s6">
+                    <i class="material-icons prefix">map</i>
+                    <input id="estado" type="text" class="validate">
+                    <label for="estado">Estado</label>
+                  </div>
+                  <div class="input-field col s6">
+                    <i class="material-icons prefix">business</i>
+                    <input id="cidade" type="tel" class="validate">
+                    <label for="cidade">Cidade</label>
+                  </div>
+                  <div class="input-field col s6">
+                    <i class="material-icons prefix">streetview</i>
+                    <input id="rua" type="tel" class="validate">
+                    <label for="rua">Rua</label>
+                  </div>
+                  <div class="input-field col s6">
+                   <a onclick="buscaRua()" class="waves-effect waves-light btn">
+                    <i class="material-icons right">send</i>Enviar</a>
+                  </div>  
+                </div>
+              <ul class="collection">
+                <li class="collection-item"></li>CEP: <span id="dadoCep"></span></li>
+              <li class="collection-item"></li>RUA: <span id="dadoRua2"></span></li>
+              <li class="collection-item"></li>BAIRRO: <span id="dadoBairro2"></span></li>
+              <li class="collection-item"></li>CIDADE: <span id="dadoCidade2"></span></li>
+              <li class="collection-item"></li>ESTADO: <span id="dadoEstado2"></span></li>
+              </ul>
+              </form>
+            </div>
           </div>
         </div>
 
@@ -156,6 +184,66 @@
               })
 
           }
+        
+        //   async function buscaRua() {
+        //     let estado = document.querySelector("#estado").value.trim()
+        //     let cidade = document.querySelector("#cidade").value.trim()
+        //     let rua = document.querySelector("#rua").value.trim()
+
+        //     console.log("Buscando rua por:", estado, cidade, rua)
+
+        //     if (!estado || !cidade || !rua) {
+        //       alert("Preencha todos os campos: estado, cidade e rua.")
+        //       return
+        //     }
+
+        //     try {
+        //       let url = `https://viacep.com.br/ws/${estado}/${cidade}/${rua}/json/`
+        //       let response = await fetch(url)
+        //       let dados = await response.json()
+
+        //       if (!Array.isArray(dados) || dados.length === 0 || dados.erro) {
+        //         alert("Endereço não encontrado.")
+        //         return
+        //       }
+
+        //       // Pegando o primeiro resultado da busca
+        //       let endereco = dados[0]
+
+        //       console.log("Endereço encontrado:", endereco)
+
+        //       // Atualizando os dados na lista da interface
+        //       document.querySelector("#dadoCep").innerText = endereco.cep
+        //       document.querySelector("#dadoRua2").innerText = endereco.logradouro
+        //       document.querySelector("#dadoBairro2").innerText = endereco.bairro
+        //       document.querySelector("#dadoCidade2").innerText = endereco.localidade
+        //       document.querySelector("#dadoEstado2").innerText = endereco.uf
+
+        //     } catch (erro) {
+        //       console.error("Erro ao buscar endereço:", erro)
+        //       alert("Erro ao buscar endereço.")
+        //     }
+        // }
+
+        function buscaRua(){
+           let estado = document.querySelector("#estado").value
+           let cidade = document.querySelector("#cidade").value
+           let rua = document.querySelector("#rua").value
+           
+           url = `https://viacep.com.br/ws/${estado}/${cidade}/${rua}/json/`
+
+           console.log("url", url)
+
+           fetch(url).then((res)=>{
+            return res.json()
+           }).then((ruas)=>{
+            console.log(ruas)
+           })
+
+
+        }
+
+
         </script>
 
       </body>
