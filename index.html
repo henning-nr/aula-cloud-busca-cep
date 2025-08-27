@@ -14,7 +14,7 @@
 
 <body>
   <nav class="light-blue lighten-1" role="navigation">
-    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Logo</a>
+    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Busca Endereços - Dona Lucinda</a>
       <ul class="right hide-on-med-and-down">
         <li><a href="#">Navbar Link</a></li>
       </ul>
@@ -62,14 +62,34 @@
 
           <!-- tab da rua -->
           <div id="test2" class="col s12">
-            <input type="text">
-            <input type="text">
-            <input type="text">
-            <button>Evniar</button>
+            <div class="row">
+              <div class="input-field col s6">
+                <i class="material-icons prefix">map</i>
+                <input id="estado" type="text" class="validate">
+                <label for="estado">Estado</label>
+              </div>
+
+              <div class="input-field col s6">
+                <i class="material-icons prefix">location_city</i>
+                <input id="cidade" type="text" class="validate">
+                <label for="cidade">Cidade</label>
+              </div>
+
+              <div class="input-field col s6">
+                <i class="material-icons prefix">location_on</i>
+                <input id="rua" type="text" class="validate">
+                <label for="rua">Rua</label>
+                <a onclick="buscaRua()" class="waves-effect waves-light btn"><i class="material-icons right">search</i>Buscar</a>
+              </div>
+            </div>
+            
+            <div id="lista-ruas">
+              aqui vai aparecer várias ruas
+            </div>
           </div>
         </div>
 
-        
+
 
         <!-- Compiled and minified JavaScript -->
         <!--  Scripts-->
@@ -78,7 +98,7 @@
         <script src="js/init.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
-        
+
         <!-- minha lógica -->
         <script>
           // PEGANDO COM FETCH
@@ -156,7 +176,39 @@
               })
 
           }
+
+            function buscaRua(){
+              estado = document.querySelector("#estado").value
+              cidade = document.querySelector("#cidade").value
+              rua = document.querySelector("#rua").value
+
+              url = `https://viacep.com.br/ws/${estado}/${cidade}/${rua}/json/`
+              console.log("url montada", url)
+
+              fetch(url)
+              .then((res)=>{
+                return res.json()
+              })
+              .then((ruas)=>{
+                console.log(ruas)
+                let listaRuas = document.querySelector("#lista-ruas")
+
+                let ruasList = ""
+                for (let i=0; i < ruas.length; i++){
+                  ruasList += `<ul class="collection">
+                 <li class="collection-item"></li>RUA: <span id="dadoRua">${ruas[i].logradouro}</span></li>
+                 <li class="collection-item"></li>BAIRRO: <span id="dadoBairro">${ruas[i].bairro}</span></li>
+                 <li class="collection-item"></li>CIDADE: <span id="dadoCidade">${ruas[i].localidade}</span></li>
+                 <li class="collection-item"></li>ESTADO: <span id="dadoEstado"></span>${ruas[i].estado}</li>
+            </ul>`
+                }
+
+                listaRuas.innerHTML = ruasList
+              })
+            }
+
         </script>
 
       </body>
+
 </html>
