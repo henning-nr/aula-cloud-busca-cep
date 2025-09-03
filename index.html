@@ -62,210 +62,195 @@
 
           <!-- tab da rua -->
           <div id="test2" class="col s12">
-             <div class="row">
-              <form class="col s12">
-                <div class="row">
-                  <div class="input-field col s6">
-                    <i class="material-icons prefix">map</i>
-                    <input id="estado" type="text" class="validate">
-                    <label for="estado">Estado</label>
-                  </div>
-                  <div class="input-field col s6">
-                    <i class="material-icons prefix">business</i>
-                    <input id="cidade" type="tel" class="validate">
-                    <label for="cidade">Cidade</label>
-                  </div>
-                  <div class="input-field col s6">
-                    <i class="material-icons prefix">streetview</i>
-                    <input id="rua" type="tel" class="validate">
-                    <label for="rua">Rua</label>
-                  </div>
-                  <div class="input-field col s6">
-                   <a onclick="buscaRua()" class="waves-effect waves-light btn">
-                    <i class="material-icons right">send</i>Enviar</a>
-                  </div>  
-                </div>
-              <!-- <ul class="collection">
-                <li class="collection-item"></li>CEP: <span id="dadoCep"></span></li>
-                <li class="collection-item"></li>RUA: <span id="dadoRua2"></span></li>
-                <li class="collection-item"></li>BAIRRO: <span id="dadoBairro2"></span></li>
-                <li class="collection-item"></li>CIDADE: <span id="dadoCidade2"></span></li>
-                <li class="collection-item"></li>ESTADO: <span id="dadoEstado2"></span></li>
-              </ul> -->
-
-              <div class="lista-ruas">
-                aqui vai aparecer varias ruas
-              </div>
-              </form>
+            <div class="input-field col s6">
+              <select onchange="pegarCidades()" id="estado" class="browser-default"></select>
             </div>
+          </div>
+          <div class="input-field col s6">
+            <select id="cidade" class="browser-default"></select>
+          </div>
+          <div class="input-field col s6">
+            <i class="material-icons prefix">location_on</i>
+            <input id="rua" type="tel" class="validate">
+            <label for="rua">Rua</label>
+          </div>
+          <div class="input-field col s6">
+            <a onclick="buscaRua()" class="waves-effect waves-light btn"><i
+                class="material-icons right">search</i>Enviar</a>
           </div>
         </div>
 
-        
-
-        <!-- Compiled and minified JavaScript -->
-        <!--  Scripts-->
-        <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-        <script src="js/materialize.js"></script>
-        <script src="js/init.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
-        
-        <!-- minha lógica -->
-        <script>
-          // PEGANDO COM FETCH
-          async function buscaCepFetch() {
-            let cep = document.querySelector("input").value
-            console.log("buscando cep", cep)
-
-            let url = await "https://viacep.com.br/ws/" + cep + "/json/"
-            let url2 = await `https://viacep.com.br/ws/${cep}/json/`
-
-            // usando fetch
-
-            fetch(url)
-              .then((res) => {
-                console.log('resposta aqui', res)
-                return res.json()
-              })
-              .then((cep) => {
-                console.log(cep.logradouro)
-                document.querySelector("#dadoRua").innerText = cep.logradouro
-                document.querySelector("#dadoBairro").innerText = cep.bairro
-                document.querySelector("#dadoCidade").innerText = cep.localidade
-                document.querySelector("#dadoEstado").innerText = cep.uf
-              })
-
-          }
+        <div id="lista-ruas">
+          aqui vai aparecer varias ruas
+        </div>
+    </div>
+  </div>
 
 
-          // PEGANDO COM AJAX
-          async function buscaCepAjax() {
-            let cep = document.querySelector("input").value
-            console.log("buscando cep", cep)
 
-            let url = await "https://viacep.com.br/ws/" + cep + "/json/"
-            let url2 = await `https://viacep.com.br/ws/${cep}/json/`
+  <!-- Compiled and minified JavaScript -->
+  <!--  Scripts-->
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="js/materialize.js"></script>
+  <script src="js/init.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
 
-            // usando ajax
+  <!-- minha lógica -->
+  <script>
+    $(document).ready(function () {
+      $('select').formSelect();
+    });
+    // PEGANDO COM FETCH
+    async function buscaCepFetch() {
+      let cep = document.querySelector("input").value
+      console.log("buscando cep", cep)
 
-            $.ajax({
-              url: url,
-              method: 'GET',
-              success: function (data) {
-                console.log(data); // Manipula os dados recebidos
-                document.querySelector("#dadoRua").innerText = data.logradouro
-                document.querySelector("#dadoBairro").innerText = data.bairro
-                document.querySelector("#dadoCidade").innerText = data.localidade
-                document.querySelector("#dadoEstado").innerText = data.uf
-              },
-              error: function (jqXHR, textStatus, errorThrown) {
-                console.error('Erro na requisição:', textStatus, errorThrown);
-              }
-            });
+      let url = await "https://viacep.com.br/ws/" + cep + "/json/"
+      let url2 = await `https://viacep.com.br/ws/${cep}/json/`
 
-          }
+      // usando fetch
+
+      fetch(url)
+        .then((res) => {
+          console.log('resposta aqui', res)
+          return res.json()
+        })
+        .then((cep) => {
+          console.log(cep.logradouro)
+          document.querySelector("#dadoRua").innerText = cep.logradouro
+          document.querySelector("#dadoBairro").innerText = cep.bairro
+          document.querySelector("#dadoCidade").innerText = cep.localidade
+          document.querySelector("#dadoEstado").innerText = cep.uf
+        })
+
+    }
 
 
-          // PEGANDO COM AXIOS
-          async function buscaCepAxios() {
-            let cep = document.querySelector("input").value
-            console.log("buscando cep", cep)
+    // PEGANDO COM AJAX
+    async function buscaCepAjax() {
+      let cep = document.querySelector("input").value
+      console.log("buscando cep", cep)
 
-            let url = await "https://viacep.com.br/ws/" + cep + "/json/"
-            let url2 = await `https://viacep.com.br/ws/${cep}/json/`
+      let url = await "https://viacep.com.br/ws/" + cep + "/json/"
+      let url2 = await `https://viacep.com.br/ws/${cep}/json/`
 
-            // usando axios
-            axios.get(url)
-              .then(function (response) {
-                // handle success
-                console.log('imprimindo com axios', response.data);
-                let cep = response.data
-                document.querySelector("#dadoRua").innerText = cep.logradouro
-                document.querySelector("#dadoBairro").innerText = cep.bairro
-                document.querySelector("#dadoCidade").innerText = cep.localidade
-                document.querySelector("#dadoEstado").innerText = cep.uf
-              })
+      // usando ajax
 
-          }
-        
-        //   async function buscaRua() {
-        //     let estado = document.querySelector("#estado").value.trim()
-        //     let cidade = document.querySelector("#cidade").value.trim()
-        //     let rua = document.querySelector("#rua").value.trim()
-
-        //     console.log("Buscando rua por:", estado, cidade, rua)
-
-        //     if (!estado || !cidade || !rua) {
-        //       alert("Preencha todos os campos: estado, cidade e rua.")
-        //       return
-        //     }
-
-        //     try {
-        //       let url = `https://viacep.com.br/ws/${estado}/${cidade}/${rua}/json/`
-        //       let response = await fetch(url)
-        //       let dados = await response.json()
-
-        //       if (!Array.isArray(dados) || dados.length === 0 || dados.erro) {
-        //         alert("Endereço não encontrado.")
-        //         return
-        //       }
-
-        //       // Pegando o primeiro resultado da busca
-        //       let endereco = dados[0]
-
-        //       console.log("Endereço encontrado:", endereco)
-
-        //       // Atualizando os dados na lista da interface
-        //       document.querySelector("#dadoCep").innerText = endereco.cep
-        //       document.querySelector("#dadoRua2").innerText = endereco.logradouro
-        //       document.querySelector("#dadoBairro2").innerText = endereco.bairro
-        //       document.querySelector("#dadoCidade2").innerText = endereco.localidade
-        //       document.querySelector("#dadoEstado2").innerText = endereco.uf
-
-        //     } catch (erro) {
-        //       console.error("Erro ao buscar endereço:", erro)
-        //       alert("Erro ao buscar endereço.")
-        //     }
-        // }
-
-        function buscaRua(){
-           let estado = document.querySelector("#estado").value
-           let cidade = document.querySelector("#cidade").value
-           let rua = document.querySelector("#rua").value
-           
-           url = `https://viacep.com.br/ws/${estado}/${cidade}/${rua}/json/`
-
-           console.log("url", url)
-
-           fetch(url)
-           .then((res)=>{
-            return res.json()
-           })
-           .then((ruas)=>{
-            console.log(ruas)
-            let listaRuas = document.querySelector("#lista-ruas")
-            
-            for(let i=0; i<ruas.length; i++){
-              console.log(ruas[i].logradouro)
-
-            }
-
-            listaRuas.innerHTML = `
-              <ul class="collection">
-              <li class="collection-item"></li>RUA: <span id="dadoRua"></span></li>
-              <li class="collection-item"></li>BAIRRO: <span id="dadoBairro"></span></li>
-              <li class="collection-item"></li>CIDADE: <span id="dadoCidade"></span></li>
-              <li class="collection-item"></li>ESTADO: <span id="dadoEstado"></span></li>
-              </ul>
-              `
-           })
-          
-
+      $.ajax({
+        url: url,
+        method: 'GET',
+        success: function (data) {
+          console.log(data); // Manipula os dados recebidos
+          document.querySelector("#dadoRua").innerText = data.logradouro
+          document.querySelector("#dadoBairro").innerText = data.bairro
+          document.querySelector("#dadoCidade").innerText = data.localidade
+          document.querySelector("#dadoEstado").innerText = data.uf
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          console.error('Erro na requisição:', textStatus, errorThrown);
         }
+      });
+
+    }
 
 
-        </script>
+    // PEGANDO COM AXIOS
+    async function buscaCepAxios() {
+      let cep = document.querySelector("input").value
+      console.log("buscando cep", cep)
 
-      </body>
+      let url = await "https://viacep.com.br/ws/" + cep + "/json/"
+      let url2 = await `https://viacep.com.br/ws/${cep}/json/`
+
+      // usando axios
+      axios.get(url)
+        .then(function (response) {
+          // handle success
+          console.log('imprimindo com axios', response.data);
+          let cep = response.data
+          document.querySelector("#dadoRua").innerText = cep.logradouro
+          document.querySelector("#dadoBairro").innerText = cep.bairro
+          document.querySelector("#dadoCidade").innerText = cep.localidade
+          document.querySelector("#dadoEstado").innerText = cep.uf
+        })
+    }
+
+    function buscaRua() {
+      estado = document.querySelector("#estado").value
+      cidade = document.querySelector("#cidade").value
+      rua = document.querySelector("#rua").value
+
+      url = `https://viacep.com.br/ws/${estado}/${cidade}/${rua}/json/`
+
+      console.log("url montada", url)
+
+      fetch(url)
+        .then((res) => {
+          return res.json()
+        })
+        .then((ruas) => {
+          console.log(ruas)
+          let listaRuas = document.querySelector("#lista-ruas")
+
+          let ruasList = ""
+          for (let i = 0; i < ruas.length; i++) {
+            ruasList += `<ul class="collection">
+                  <li class="collection-item"></li>RUA: <span id="dadoRua">${ruas[i].logradouro}</span></li>
+                  <li class="collection-item"></li>BAIRRO: <span id="dadoBairro">${ruas[i].bairro}</span></li>
+                  <li class="collection-item"></li>CIDADE: <span id="dadoCidade">${ruas[i].localidade}</span></li>
+                  <li class="collection-item"></li>ESTADO: <span id="dadoEstado">${ruas[i].estado}</span></li>
+               </ul>`
+          }
+
+          listaRuas.innerHTML = ruasList
+        })
+
+    }
+
+    function pegarEstados() {
+      selectEstado = document.querySelector("#estado")
+      let urlEstado = "https://servicodados.ibge.gov.br/api/v1/localidades/estados"
+
+      fetch(urlEstado)
+        .then((res) => {
+          return res.json()
+        })
+        .then((estados) => {
+          console.log(estados)
+
+          let estadosList = '<option value="" disabled selected>Escolha um Estado</option>'
+          for (let i = 0; i < estados.length; i++) {
+            estadosList += `<option value="${estados[i].sigla}">${estados[i].nome}</option>`;
+          }
+          selectEstado.innerHTML = estadosList
+
+          
+        })
+    }
+    pegarEstados()
+
+    function pegarCidades() {
+      uf = document.querySelector("#estado").value
+      selectCidade = document.querySelector("#cidade")
+      let urlCidade = `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${uf}/municipios`
+
+      fetch(urlCidade)
+        .then((res) => {
+          return res.json()
+        })
+        .then((cidades) => {
+          console.log(cidades)
+
+          let cidadesList = '<option value="" disabled selected>Escolha uma Cidade</option>'
+          for (let i = 0; i < cidades.length; i++) {
+            cidadesList += `<option value="${cidades[i].nome}">${cidades[i].nome}</option>`;
+          }
+          selectCidade.innerHTML = cidadesList
+        })
+    }
+  </script>
+
+</body>
+
 </html>
