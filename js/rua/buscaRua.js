@@ -15,6 +15,20 @@
           console.log(ruas)
           let listaRuas = document.querySelector("#lista-ruas")
 
+          // Verificar se houve erro ou nenhum resultado
+          if (!ruas || ruas.length === 0) {
+            // Registrar no log como erro
+            salvarLog('RUA', { 
+              estado: estado, 
+              cidade: cidade, 
+              rua: rua 
+            }, 'Nenhum resultado encontrado', 'erro');
+            
+            listaRuas.innerHTML = '<div class="card-panel red lighten-4"><p>Nenhum resultado encontrado.</p></div>';
+            $(".preloader-wrapper").hide();
+            return;
+          }
+
           let ruasList = ""
           for (let i = 0; i < ruas.length; i++) {
             ruasList += `<ul class="collection">
@@ -24,9 +38,33 @@
                   <li class="collection-item">ESTADO: <span id="dadoEstado">${ruas[i].estado}</span></li>
                </ul>`
           }
+          
           setTimeout(() => {
             listaRuas.innerHTML = ruasList
             $(".preloader-wrapper").hide()
+            
+            // Registrar sucesso no log
+            salvarLog('RUA', { 
+              estado: estado, 
+              cidade: cidade, 
+              rua: rua 
+            }, { 
+              quantidade: ruas.length 
+            }, 'sucesso');
+            
           }, 2000);
+        })
+        .catch((error) => {
+          console.error('Erro na consulta:', error);
+          // Registrar erro no log
+          salvarLog('RUA', { 
+            estado: estado, 
+            cidade: cidade, 
+            rua: rua 
+          }, 'Erro na consulta: ' + error.message, 'erro');
+          
+          let listaRuas = document.querySelector("#lista-ruas")
+          listaRuas.innerHTML = '<div class="card-panel red lighten-4"><p>Erro ao buscar rua. Verifique sua conexão.</p></div>';
+          $(".preloader-wrapper").hide();
         })
     }

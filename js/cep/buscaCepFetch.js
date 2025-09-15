@@ -13,12 +13,35 @@
           console.log('resposta aqui', res)
           return res.json()
         })
-        .then((cep) => {
-          console.log(cep.logradouro)
-          document.querySelector("#dadoRua").innerText = cep.logradouro
-          document.querySelector("#dadoBairro").innerText = cep.bairro
-          document.querySelector("#dadoCidade").innerText = cep.localidade
-          document.querySelector("#dadoEstado").innerText = cep.uf
+        .then((dados) => {
+          console.log(dados.logradouro)
+          
+          // Verificar se houve erro na consulta
+          if (dados.erro) {
+            // Registrar erro no log
+            salvarLog('CEP', { cep: cep }, 'CEP não encontrado', 'erro');
+            alert('CEP não encontrado!');
+            return;
+          }
+          
+          // Atualizar interface
+          document.querySelector("#dadoRua").innerText = dados.logradouro
+          document.querySelector("#dadoBairro").innerText = dados.bairro
+          document.querySelector("#dadoCidade").innerText = dados.localidade
+          document.querySelector("#dadoEstado").innerText = dados.uf
+          
+          // Registrar sucesso no log
+          salvarLog('CEP', { cep: cep }, {
+            logradouro: dados.logradouro,
+            bairro: dados.bairro,
+            localidade: dados.localidade,
+            uf: dados.uf
+          }, 'sucesso');
         })
-
+        .catch((error) => {
+          console.error('Erro na consulta:', error);
+          // Registrar erro no log
+          salvarLog('CEP', { cep: cep }, 'Erro na consulta: ' + error.message, 'erro');
+          alert('Erro ao buscar CEP. Verifique sua conexão.');
+        })
     }
